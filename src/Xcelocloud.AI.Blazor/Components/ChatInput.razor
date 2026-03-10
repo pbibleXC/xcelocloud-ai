@@ -1,0 +1,57 @@
+@namespace Xcelocloud.AI.Blazor.Components
+
+<div class="chat-input" style="width: 100%;">
+    <FluentTextArea @bind-Value="_inputText"
+                    @ref="_textAreaRef"
+                    Rows="3"
+                    Placeholder="Ask about Halo reporting… (Ctrl+Enter to send, Enter for new line)"
+                    Class="chat-input__textarea"
+                    Style="width: 100%; min-width: 0;"
+                    Disabled="@IsDisabled"
+                    @onkeydown="HandleKeyDown"
+                    aria-label="Chat message input" />
+</div>
+
+@code {
+    private FluentTextArea _textAreaRef = default!;
+    private string _inputText = string.Empty;
+
+    /// <summary>Disables the input while the agent is generating a response.</summary>
+    [Parameter]
+    public bool IsDisabled { get; set; }
+
+    /// <summary>Raised when the user submits a message. Provides the trimmed message text.</summary>
+    [Parameter]
+    public EventCallback<string> OnMessageSent { get; set; }
+
+    /// <summary>Exposes the current input text.</summary>
+    public string InputText => _inputText;
+
+    /// <summary>Returns whether the input is empty.</summary>
+    public bool IsEmpty => string.IsNullOrWhiteSpace(_inputText);
+
+    /// <summary>Clears the input text.</summary>
+    public void ClearInput()
+    {
+        _inputText = string.Empty;
+    }
+
+    public async Task HandleSend()
+    {
+        var message = _inputText.Trim();
+        if (string.IsNullOrEmpty(message) || IsDisabled)
+            return;
+
+        _inputText = string.Empty;
+        await OnMessageSent.InvokeAsync(message);
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        // Ctrl+Enter sends; plain Enter inserts a newline (default behaviour).
+        if (e.Key == "Enter" && e.CtrlKey)
+        {
+            await HandleSend();
+        }
+    }
+}

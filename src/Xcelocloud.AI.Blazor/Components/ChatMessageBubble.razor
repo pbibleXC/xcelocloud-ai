@@ -1,0 +1,35 @@
+@namespace Xcelocloud.AI.Blazor.Components
+
+<div class="message-bubble @(Message.Role == ChatRole.User ? "bubble--user" : "bubble--assistant")">
+    <div class="bubble__avatar">
+        @if (Message.Role == ChatRole.User)
+        {
+            <FluentIcon Value="@(new Size20.Person())" />
+        }
+        else
+        {
+            <FluentIcon Value="@(new Size20.Bot())" />
+        }
+    </div>
+    <FluentCard Class="bubble__card">
+        @if (Message.IsLoading)
+        {
+            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Style="gap: 8px; padding: 2px 0;">
+                <FluentProgressRing Width="20px" />
+                <FluentLabel Typo="Typography.Body" Color="Color.Neutral">Thinking&hellip;</FluentLabel>
+            </FluentStack>
+        }
+        else
+        {
+            <FluentLabel Typo="Typography.Body" Class="bubble__content">@Message.Content</FluentLabel>
+            <FluentLabel Typo="Typography.Body" Color="Color.Neutral" Class="bubble__timestamp" Style="font-size: 0.7rem;">
+                @Message.Timestamp.LocalDateTime.ToString("HH:mm")
+            </FluentLabel>
+        }
+    </FluentCard>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ChatMessage Message { get; set; } = default!;
+}

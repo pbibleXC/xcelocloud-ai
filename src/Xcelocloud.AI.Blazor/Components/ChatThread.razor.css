@@ -1,0 +1,27 @@
+.chat-thread {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 16px;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 100%;
+}
+
+/* Wrapper to counter the column-reverse so messages appear right-side-up */
+.chat-message-wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.chat-thread__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    opacity: 0.5;
+    user-select: none;
+}

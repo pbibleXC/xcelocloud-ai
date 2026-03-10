@@ -1,0 +1,30 @@
+@namespace Xcelocloud.AI.Blazor.Components
+
+<div id="@_threadId" class="chat-thread">
+    @if (Messages.Count == 0)
+    {
+        <div class="chat-thread__empty">
+            <FluentIcon Value="@(new Size48.ChatMultiple())" Color="Color.Neutral" />
+            <FluentLabel Typo="Typography.Body" Color="Color.Neutral" Style="margin-top: 12px;">
+                Ask the Halo Reporting Agent anything about your Halo PSA data.
+            </FluentLabel>
+        </div>
+    }
+    else
+    {
+        <!-- Reverse the order so newest messages appear at bottom (displayed first due to column-reverse) -->
+        @foreach (var message in Messages.AsEnumerable().Reverse())
+        {
+            <div class="chat-message-wrapper">
+                <ChatMessageBubble Message="@message" />
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private readonly string _threadId = $"chat-thread-{Guid.NewGuid():N}";
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<ChatMessage> Messages { get; set; } = [];
+}

@@ -1,0 +1,162 @@
+@page "/"
+@inject IHaloAgentClient AgentClient
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Halo Chat &mdash; Xcelocloud AI</PageTitle>
+
+<FluentGrid Style="height: 100%; width: 100%; padding: 16px; box-sizing: border-box;">
+    <FluentGridItem xs="12" Style="height: 100%;">
+        <FluentCard Style="height: 100%; display: flex; flex-direction: column; overflow: hidden;">
+            <div style="padding: 16px;">
+                <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Style="gap: 10px;">
+                    <FluentIcon Value="@(new Size24.Bot())" Color="Color.Accent" />
+                    <FluentStack Orientation="Orientation.Vertical" Style="gap: 2px;">
+                        <FluentLabel Typo="Typography.H6">Halo Reporting Agent</FluentLabel>
+                        <FluentLabel Typo="Typography.Body" Color="Color.Neutral" Style="font-size: 0.75rem;">
+                            Ask questions about utilisation, agent capacity, roles, and more.
+                        </FluentLabel>
+                    </FluentStack>
+                </FluentStack>
+            </div>
+
+            <FluentDivider Style="margin: 0;" />
+
+            @if (_errorMessage is not null)
+            {
+                <FluentMessageBar Intent="MessageIntent.Error"
+                                  OnDismiss="@(() => _errorMessage = null)"
+                                  Style="margin: 8px 16px 0;">
+                    @_errorMessage
+                </FluentMessageBar>
+            }
+
+            <div style="display: flex; flex: 1; min-height: 0;">
+                <ChatThread Messages="@_messages" />
+            </div>
+
+            <FluentDivider Style="margin: 0;" />
+
+            <FluentGrid Spacing="2" Style="padding: 12px 16px; align-items: stretch;">
+                <FluentGridItem xs="10" Style="display: flex; min-width: 0;">
+                    <ChatInput @ref="_chatInputRef"
+                               IsDisabled="@_isLoading"
+                               OnMessageSent="HandleMessageSentAsync" />
+                </FluentGridItem>
+                <FluentGridItem xs="2" Style="display: flex; flex-direction: column; gap: 8px; justify-content: flex-end;">
+                    <FluentButton Appearance="Appearance.Accent"
+                                  OnClick="HandleSendClick"
+                                  Disabled="@_isLoading"
+                                  IconStart="@(new Size20.Send())"
+                                  aria-label="Send message">
+                        Send
+                    </FluentButton>
+                    <FluentButton Appearance="Appearance.Outline"
+                                  OnClick="HandleClearClick"
+                                  IconStart="@(new Size16.Delete())"
+                                  aria-label="Clear conversation">
+                        Clear
+                    </FluentButton>
+                </FluentGridItem>
+            </FluentGrid>
+        </FluentCard>
+    </FluentGridItem>
+</FluentGrid>
+
+@code {
+    private readonly List<ChatMessage> _messages = [];
+    private ChatInput _chatInputRef = default!;
+    private bool _isLoading;
+    private string? _errorMessage;
+
+    private async Task HandleSendClick()
+    {
+        if (_chatInputRef == null)
+            return;
+
+        // Check if input has text
+        var inputText = _chatInputRef.InputText?.Trim() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(inputText))
+        {
+            _errorMessage = "Please enter a message before sending.";
+            return;
+        }
+
+        // Clear any previous error
+        _errorMessage = null;
+
+        // Proceed with sending
+        await _chatInputRef.HandleSend();
+    }
+
+    private async Task HandleClearClick()
+    {
+        if (_messages.Count == 0)
+        {
+            _errorMessage = "There is no conversation to clear.";
+            return;
+        }
+
+        // Show confirmation dialog
+        var confirmed = await JSRuntime.InvokeAsync<bool>(
+            "confirm", 
+            "Are you sure you want to clear the entire conversation? This action cannot be undone.");
+
+        if (confirmed)
+        {
+            ClearConversation();
+        }
+    }
+
+    private async Task HandleMessageSentAsync(string userText)
+    {
+        _errorMessage = null;
+
+        // Add the user's message immediately.
+        _messages.Add(new ChatMessage { Role = ChatRole.User, Content = userText });
+
+        // Add a loading placeholder for the assistant.
+        var placeholder = new ChatMessage { Role = ChatRole.Assistant, IsLoading = true };
+        _messages.Add(placeholder);
+        _isLoading = true;
+
+        try
+        {
+            var request = BuildRequest(userText);
+            var response = await AgentClient.ChatAsync(request);
+
+            placeholder.Content = response.Message;
+            placeholder.IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            _messages.Remove(placeholder);
+            _errorMessage = $"The agent returned an error: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private HaloChatRequest BuildRequest(string userText)
+    {
+        // Build conversation history from all completed (non-loading) message pairs.
+        var history = _messages
+            .Where(m => !m.IsLoading && m != _messages.Last())
+            .Select(m => new HaloChatTurn
+            {
+                Role = m.Role == ChatRole.User ? "user" : "assistant",
+                Content = m.Content
+            })
+            .ToList();
+
+        return new HaloChatRequest { Message = userText, History = history };
+    }
+
+    private void ClearConversation()
+    {
+        _messages.Clear();
+        _errorMessage = null;
+    }
+}

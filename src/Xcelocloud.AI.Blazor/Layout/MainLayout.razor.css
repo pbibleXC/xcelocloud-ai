@@ -1,0 +1,6 @@
+/* Ensure the layout fills the viewport */
+::deep fluent-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}

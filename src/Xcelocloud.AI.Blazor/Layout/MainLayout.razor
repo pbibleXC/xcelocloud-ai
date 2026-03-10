@@ -1,0 +1,25 @@
+@inherits LayoutComponentBase
+
+<FluentDesignTheme Mode="DesignThemeModes.System" StorageName="xc-ai-theme" />
+
+<FluentLayout>
+    <FluentHeader>
+        <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Style="gap: 10px;">
+            <FluentIcon Value="@(new Size24.ChatMultipleHeart())" Color="Color.Fill" />
+            <FluentLabel Typo="Typography.Subject" Color="Color.Fill">Xcelocloud AI</FluentLabel>
+        </FluentStack>
+    </FluentHeader>
+
+    <FluentBodyContent Style="height: calc(100vh - 50px); overflow: hidden;">
+        <ErrorBoundary>
+            <ChildContent>
+                @Body
+            </ChildContent>
+            <ErrorContent Context="ex">
+                <FluentMessageBar Intent="MessageIntent.Error" Style="margin: 16px;">
+                    <b>An unexpected error occurred.</b> @ex.Message
+                </FluentMessageBar>
+            </ErrorContent>
+        </ErrorBoundary>
+    </FluentBodyContent>
+</FluentLayout>

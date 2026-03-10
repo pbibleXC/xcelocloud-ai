@@ -3,6 +3,12 @@
 ################################################################################
 
 /.vs
+/src/Xcelocloud.AI.Agent/bin
+/src/Xcelocloud.AI.Agent/obj
+/src/Xcelocloud.AI.Blazor/bin
+/src/Xcelocloud.AI.Blazor/obj
+/src/Xcelocloud.AI.Mcp/bin
+/src/Xcelocloud.AI.Mcp/obj
 /tests/Xcelocloud.AI.Agent.Tests/bin
 /tests/Xcelocloud.AI.Agent.Tests/obj
 /tests/Xcelocloud.AI.Mcp.Tests/bin

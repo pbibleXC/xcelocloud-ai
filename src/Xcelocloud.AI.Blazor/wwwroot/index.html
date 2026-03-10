@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xcelocloud AI &mdash; Halo Chat</title>
+    <base href="/" />
+    <!-- FluentUI Blazor reboot / reset -->
+    <link rel="stylesheet" href="_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css" />
+    <!-- Application styles -->
+    <link rel="stylesheet" href="app.css" />
+    <!-- Blazor component scoped CSS bundle -->
+    <link rel="stylesheet" href="Xcelocloud.AI.Blazor.styles.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+    <div id="app">
+        <svg xmlns="http://www.w3.org/2000/svg" class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <span class="dismiss">&#10006;</span>
+    </div>
+
+    <!-- Blazor WASM runtime -->
+    <script src="_framework/blazor.webassembly.js"></script>
+    <!-- FluentUI web components module -->
+    <script type="module" src="_content/Microsoft.FluentUI.AspNetCore.Components/Microsoft.FluentUI.AspNetCore.Components.lib.module.js"></script>
+</body>
+</html>
