@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path="Directory.Packages.props" />
+    <File Path="nuget.config" />
   </Folder>
   <Project Path="src/Xcelocloud.AI.Agent/Xcelocloud.AI.Agent.csproj" Id="2f820140-22ab-498f-af08-9a1be01f2f00" />
   <Project Path="src/Xcelocloud.AI.Mcp/Xcelocloud.AI.Mcp.csproj" Id="1638898d-4d42-4442-b956-6dcf998b2674" />
