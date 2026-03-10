@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/tests/Xcelocloud.AI.Agent.Tests/bin
+/tests/Xcelocloud.AI.Agent.Tests/obj
+/tests/Xcelocloud.AI.Mcp.Tests/bin
+/tests/Xcelocloud.AI.Mcp.Tests/obj

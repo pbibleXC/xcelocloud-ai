@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="src/Xcelocloud.AI.Agent/Xcelocloud.AI.Agent.csproj" Id="2f820140-22ab-498f-af08-9a1be01f2f00" />
+  <Project Path="src/Xcelocloud.AI.Mcp/Xcelocloud.AI.Mcp.csproj" Id="1638898d-4d42-4442-b956-6dcf998b2674" />
+  <Project Path="tests/Xcelocloud.AI.Agent.Tests/Xcelocloud.AI.Agent.Tests.csproj" Id="5582ecf9-fe0b-4ec2-a622-76f2762495e6" />
+  <Project Path="tests/Xcelocloud.AI.Mcp.Tests/Xcelocloud.AI.Mcp.Tests.csproj" Id="22dc3d74-0ec4-43b1-b45c-dad2aa5d075e" />
+</Solution>
