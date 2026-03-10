@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "src\\Xcelocloud.AI.Mcp\\Xcelocloud.AI.Mcp.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Xcelocloud.AI.Agent\\Xcelocloud.AI.Agent.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Xcelocloud.AI.Blazor\\Xcelocloud.AI.Blazor.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
