@@ -4,9 +4,8 @@
 
 <PageTitle>Halo Chat &mdash; Xcelocloud AI</PageTitle>
 
-<FluentGrid Style="height: 100%; width: 100%; padding: 16px; box-sizing: border-box;">
-    <FluentGridItem xs="12" Style="height: 100%;">
-        <FluentCard Style="height: 100%; display: flex; flex-direction: column; overflow: hidden;">
+<div style="height: 100%; width: 100%; padding: 16px; box-sizing: border-box; display: flex;">
+    <FluentCard Style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0;">
             <div style="padding: 16px;">
                 <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Style="gap: 10px;">
                     <FluentIcon Value="@(new Size24.Bot())" Color="Color.Accent" />
@@ -59,8 +58,7 @@
                 </FluentGridItem>
             </FluentGrid>
         </FluentCard>
-    </FluentGridItem>
-</FluentGrid>
+</div>
 
 @code {
     private readonly List<ChatMessage> _messages = [];

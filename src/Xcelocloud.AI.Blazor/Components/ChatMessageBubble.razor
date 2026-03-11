@@ -22,7 +22,7 @@
         }
         else
         {
-            <div class="bubble__content">@_renderedContent</div>
+            <div class="bubble__content" style="@(Message.Role == ChatRole.User ? "color: var(--neutral-foreground-rest, #ffffff);" : "")">@_renderedContent</div>
             <FluentLabel Typo="Typography.Body" Color="Color.Neutral" Class="bubble__timestamp" Style="font-size: 0.7rem;">
                 @Message.Timestamp.LocalDateTime.ToString("HH:mm")
             </FluentLabel>

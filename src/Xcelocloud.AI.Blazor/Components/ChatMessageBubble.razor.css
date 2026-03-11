@@ -41,10 +41,6 @@
     background-color: var(--accent-fill-rest, #0078d4) !important;
 }
 
-.bubble--user .bubble__content {
-    color: var(--foreground-on-accent-rest, #ffffff) !important;
-}
-
 .bubble--user .bubble__timestamp {
     color: rgba(255, 255, 255, 0.75) !important;
 }
