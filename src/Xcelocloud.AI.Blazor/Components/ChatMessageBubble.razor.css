@@ -50,11 +50,77 @@
 }
 
 .bubble__content {
-    white-space: pre-wrap;
+    white-space: normal;
     word-break: break-word;
 }
 
 .bubble__timestamp {
     display: block;
     margin-top: 4px;
+}
+
+/* ── Markdown rendered content ─────────────────────────────────────────────── */
+.bubble__content p {
+    margin: 0 0 0.5em;
+}
+
+.bubble__content p:last-child {
+    margin-bottom: 0;
+}
+
+.bubble__content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.5em 0;
+    font-size: 0.875rem;
+}
+
+.bubble__content th,
+.bubble__content td {
+    border: 1px solid var(--neutral-stroke-rest, #d1d1d1);
+    padding: 6px 12px;
+    text-align: left;
+}
+
+.bubble__content th {
+    background-color: var(--neutral-layer-2, #f5f5f5);
+    font-weight: 600;
+}
+
+.bubble__content tr:nth-child(even) td {
+    background-color: var(--neutral-layer-1, #fafafa);
+}
+
+.bubble__content code {
+    background-color: var(--neutral-layer-3, #ebebeb);
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 0.85em;
+}
+
+.bubble__content pre {
+    background-color: var(--neutral-layer-3, #ebebeb);
+    border-radius: 4px;
+    padding: 10px 14px;
+    overflow-x: auto;
+}
+
+.bubble__content ul,
+.bubble__content ol {
+    margin: 0.25em 0 0.5em;
+    padding-left: 1.5em;
+}
+
+.bubble--user .bubble__content th {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.bubble--user .bubble__content th,
+.bubble--user .bubble__content td {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--foreground-on-accent-rest, #ffffff);
+}
+
+.bubble--user .bubble__content tr:nth-child(even) td {
+    background-color: rgba(255, 255, 255, 0.08);
 }

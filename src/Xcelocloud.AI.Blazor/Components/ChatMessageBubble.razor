@@ -1,4 +1,5 @@
 @namespace Xcelocloud.AI.Blazor.Components
+@using Markdig
 
 <div class="message-bubble @(Message.Role == ChatRole.User ? "bubble--user" : "bubble--assistant")">
     <div class="bubble__avatar">
@@ -21,7 +22,7 @@
         }
         else
         {
-            <FluentLabel Typo="Typography.Body" Class="bubble__content">@Message.Content</FluentLabel>
+            <div class="bubble__content">@_renderedContent</div>
             <FluentLabel Typo="Typography.Body" Color="Color.Neutral" Class="bubble__timestamp" Style="font-size: 0.7rem;">
                 @Message.Timestamp.LocalDateTime.ToString("HH:mm")
             </FluentLabel>
@@ -32,4 +33,22 @@
 @code {
     [Parameter, EditorRequired]
     public ChatMessage Message { get; set; } = default!;
+
+    private MarkupString _renderedContent;
+
+    private static readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder()
+        .UseAdvancedExtensions()
+        .Build();
+
+    protected override void OnParametersSet()
+    {
+        if (Message.Role == ChatRole.Assistant && !Message.IsLoading)
+        {
+            _renderedContent = new MarkupString(Markdown.ToHtml(Message.Content ?? string.Empty, _pipeline));
+        }
+        else
+        {
+            _renderedContent = new MarkupString(Message.Content ?? string.Empty);
+        }
+    }
 }
